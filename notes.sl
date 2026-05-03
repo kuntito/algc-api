@@ -98,7 +98,7 @@ app.listen(PORT, () => {
     with a text like:
     `psql 'postgresql://...some other things...'`
 
-    everything within the single quotes is the connection string.
+    `DELETE THE 'psql', EVERYTHING WITHIN THE SINGLE QUOTES IS THE CONNECTION STRING`
 
     add this string to env variables, `.env`.
     `NEON_CONN_STR=postgre...`

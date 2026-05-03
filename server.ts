@@ -1,3 +1,4 @@
+import "./envConfig"; // validates environment variables
 import express, { Express } from "express";
 import cors from 'cors';
 import algcRouter from "./routes/algcRoutes";
