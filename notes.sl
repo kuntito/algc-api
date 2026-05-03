@@ -75,3 +75,8 @@ app.listen(PORT, () => {
 
     `nodemon` is the command.
     `server.ts` is the relative file path
+
+
++   enables cross-origin requests, allows you specify what hosts can access this API:
+    `npm install cors`
+    `npm install -D @types/cors`
