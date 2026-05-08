@@ -81,6 +81,9 @@ app.listen(PORT, () => {
     `npm install cors`
     `npm install -D @types/cors`
 
++   for data validation:
+    `npm install zod`
+
 ** NEON SETUP (POSTGRES) **
 +   create acount:
     `https://neon.tech`
