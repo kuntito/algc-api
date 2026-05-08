@@ -7,5 +7,5 @@ export const hymnsTable = pgTable(hymnTableTN, {
     updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });
 
-export type HymnVerseEntity = typeof hymnsTable.$inferSelect;
-export type HymnVerseInsertEntity = typeof hymnsTable.$inferInsert;
+export type HymnEntity = typeof hymnsTable.$inferSelect;
+export type HymnInsertEntity = typeof hymnsTable.$inferInsert;

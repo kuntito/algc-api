@@ -24,7 +24,7 @@ app.use(cors());
 // `
 
 app.use(
-    "api/algc", algcRouter
+    "/api/algc", algcRouter
 );
 
 app.listen(PORT, () => {

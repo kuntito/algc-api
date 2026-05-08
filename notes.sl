@@ -150,5 +150,30 @@ export default defineConfig({
 });
 `
 
+** MISC **
 +   then in terminal, create the tables in your neon account:
     `npx drizzle-kit push`
+
++   to build the app:
+
+    ensure, `package.json` has 
+
+    {
+        "name": "algc-api",
+        ...,
+        "scripts": {
+            ...
+            "build": "tsc"
+        }
+        ...
+    }
+
+    ensure, `tsconfig.json` has:
+    {
+        "compilerOptions": {
+        ...
+        "outDir": "./dist", 
+    }
+
+    then run:
+    `npm run build` 

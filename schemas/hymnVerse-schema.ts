@@ -21,5 +21,5 @@ export const hymnVersesTable = pgTable(hymnVerseTN, {
         .notNull(),
 });
 
-export type HymnEntity = typeof hymnVersesTable.$inferSelect;
-export type HymnInsertEntity = typeof hymnVersesTable.$inferInsert;
+export type HymnVerseEntity = typeof hymnVersesTable.$inferSelect;
+export type HymnVerseInsertEntity = typeof hymnVersesTable.$inferInsert;
