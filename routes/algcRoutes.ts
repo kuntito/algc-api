@@ -1,7 +1,7 @@
 import express from "express";
 import { getAllHymnsReqHandler } from "./requestHandlers/getAllHymns/getAllHymnsReqHandler";
 import { addHymnReqHandler } from "./requestHandlers/addHymn/addHymnReqHandler";
-import { checkForUpdatesRh } from "./requestHandlers/checkUpdates/checkForUpdatesRh";
+import { checkForUpdatesRh } from "./requestHandlers/checkForUpdates/checkForUpdatesRh";
 
 const algcRouter = express.Router();
 
