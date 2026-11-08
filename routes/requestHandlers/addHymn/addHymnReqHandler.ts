@@ -1,9 +1,11 @@
 import { Request, RequestHandler, Response } from "express";
 import { addHymn, checkVerseOrderUniqueness, hymnSchemaValidator } from "./addHymnHelpers";
+import { Hymn } from "../../models";
 
 type AddHymnResponse =
     | {
         success: true;
+        hymn: Hymn;
     }
     | {
         success: false;
@@ -43,12 +45,12 @@ const addHymnReqHandler: RequestHandler = async (
             });
     }
 
-    const isHymnAdded = await addHymn(
+    const addedHymn = await addHymn(
         hymn.title, 
         hymn.hymnVerses
     );
 
-    if (!isHymnAdded) {
+    if (addedHymn == null) {
         return res
             .status(500)
             .json({
@@ -60,7 +62,8 @@ const addHymnReqHandler: RequestHandler = async (
     return res
         .status(201)
         .json({
-            success: true 
+            success: true,
+            hymn: addedHymn,
         });
 
 }

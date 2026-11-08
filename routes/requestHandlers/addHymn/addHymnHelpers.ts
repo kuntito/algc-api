@@ -1,8 +1,11 @@
 import z from "zod";
-import { HymnVerseInsertEntity, hymnVersesTable, verseTypeEnum } from "../../../schemas/hymnVerse-schema";
+import { HymnVerseEntity, HymnVerseInsertEntity, hymnVersesTable, verseTypeEnum } from "../../../schemas/hymnVerse-schema";
 import { logDbError } from "../../../helpers/dbHelpers";
 import { algcDb } from "../../../neonDbClient";
-import { hymnsTable } from "../../../schemas/hymn-schema";
+import { HymnEntity, hymnsTable } from "../../../schemas/hymn-schema";
+import { Hymn } from "../../models";
+import { Transaction } from "../../../util/types";
+import { toHymn, toHymnVerse } from "../getAllHymns/getAllHymnsHelpers";
 
 // TODO add custom error messages
 const hymnVerseSchemaValidator = z.object({
@@ -53,14 +56,20 @@ type AddHymnVerse = {
 export const addHymn = async (
     hymnTitle: string,
     hymnVerses: AddHymnVerse[],
-): Promise<boolean> => {
+): Promise<Hymn | null> => {
     try {
-        await algcDb.transaction(async (tx) => {
-            const hymnId = await insertHymnDb(tx, hymnTitle);
-            await insertHymnVersesDb(tx, hymnId, hymnVerses);
-        });
+        return await algcDb.transaction(async (tx) => {
+            const hymnEntity = await insertHymnDb(tx, hymnTitle);
+            const verseEntities = await insertHymnVersesDb(tx, hymnEntity.hymnId, hymnVerses);
 
-        return true;
+            const hymn = toHymn(hymnEntity);
+            const verses = verseEntities.map(toHymnVerse);
+
+            return {
+                ...hymn,
+                verses,
+            };
+        });
 
     } catch (e) {
         logDbError(
@@ -68,46 +77,42 @@ export const addHymn = async (
             e
         );
     }
-    return false;
+    return null;
 }
 
 
-type dbTransaction = Parameters<Parameters<typeof algcDb.transaction>[0]>[0];
-
 
 /**
- * inserts hymn into db and returns the hymn's id.
+ * inserts hymn into db and returns the inserted hymn.
  * 
  * throws if the insert fails.
  */
 const insertHymnDb = async (
-    tx: dbTransaction,
+    tx: Transaction,
     hymnTitle: string,
-): Promise<number> => {
-    const [firstRow] = await tx
+): Promise<HymnEntity> => {
+    const [hymnRow] = await tx
         .insert(hymnsTable)
         .values({
             hymnTitle: hymnTitle
         })
-        .returning({
-            hymnId: hymnsTable.hymnId
-        });
+        .returning();
 
         
-    return firstRow.hymnId;
+    return hymnRow;
 }
 
 /**
- * inserts hymn verses into db.
+ * inserts hymn verses into db and returns the inserted verses.
  * 
  * throws if the insert fails.
  */
 const insertHymnVersesDb = async (
-    tx: dbTransaction,
+    tx: Transaction,
     hymnId: number,
     hymnVerses: AddHymnVerse[],
-) => {
-    await tx
+): Promise<HymnVerseEntity[]> => {
+    const verseRows = await tx
         .insert(hymnVersesTable)
         .values(
             hymnVerses.map(
@@ -117,4 +122,7 @@ const insertHymnVersesDb = async (
                 })
             )
         )
+        .returning();
+
+    return verseRows;
 }

@@ -55,7 +55,7 @@ const getRowsHymnAndVerses = async (
     return [];
 }
 
-const toHymn = (hymnEntity: HymnEntity) => ({
+export const toHymn = (hymnEntity: HymnEntity) => ({
     id: hymnEntity.hymnId,
     title: hymnEntity.hymnTitle,
     updatedAt: hymnEntity.updatedAt,
@@ -63,7 +63,7 @@ const toHymn = (hymnEntity: HymnEntity) => ({
 });
 
 
-const toHymnVerse = (hymnVerseEntity: HymnVerseEntity) => ({
+export const toHymnVerse = (hymnVerseEntity: HymnVerseEntity) => ({
     id: hymnVerseEntity.verseId,
     verseType: hymnVerseEntity.verseType,
     verseOrder: hymnVerseEntity.verseOrder,
