@@ -25,7 +25,7 @@ export const validateInputHymnId = (
     };
 }
 
-const deleteHymnVerses = async (
+export const deleteHymnVerses = async (
     tx: Transaction,
     hymnId: number,
 ) => {

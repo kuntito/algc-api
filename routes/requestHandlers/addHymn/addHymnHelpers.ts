@@ -14,14 +14,17 @@ const hymnVerseSchemaValidator = z.object({
     ),
     verseOrder: z
     .number()
+    .int()
     .min(0),
-    lines: z.array(
-        z
-        .string()
-        .trim()
+    lines: z
+        .array(
+            z
+            .string()
+            .trim()
+            .min(1)
+            .max(100)
+        )
         .min(1)
-        .max(100)
-    )
 });
 
 // TODO add custom error messages
@@ -33,7 +36,7 @@ export const hymnSchemaValidator = z.object({
         .max(100),
     hymnVerses: z
         .array(hymnVerseSchemaValidator)
-        .min(1) // does this ensure verses array has at least one verse?
+        .min(1)
 });
 
 
@@ -107,7 +110,7 @@ const insertHymnDb = async (
  * 
  * throws if the insert fails.
  */
-const insertHymnVersesDb = async (
+export const insertHymnVersesDb = async (
     tx: Transaction,
     hymnId: number,
     hymnVerses: AddHymnVerse[],

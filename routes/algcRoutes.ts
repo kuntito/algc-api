@@ -3,6 +3,7 @@ import { getAllHymnsReqHandler } from "./requestHandlers/getAllHymns/getAllHymns
 import { addHymnReqHandler } from "./requestHandlers/addHymn/addHymnReqHandler";
 import { checkForUpdatesRh } from "./requestHandlers/checkForUpdates/checkForUpdatesRh";
 import { deleteHymnRh } from "./requestHandlers/deleteHymn.rh";
+import { updateHymnRh } from "./requestHandlers/updateHymn.rh";
 
 const algcRouter = express.Router();
 
@@ -13,5 +14,7 @@ algcRouter.post("/hymn", addHymnReqHandler);
 algcRouter.get("/checkForUpdates", checkForUpdatesRh);
 
 algcRouter.delete("/hymn/:hymnId", deleteHymnRh);
+
+algcRouter.put("/hymn/:hymnId", updateHymnRh);
 
 export default algcRouter;
