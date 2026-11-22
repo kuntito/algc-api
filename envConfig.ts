@@ -13,6 +13,7 @@ dotenv.config();
 
 const requiredVariables = [
     "NEON_CONN_STR",
+    "ALGC_API_KEY",
 ] as const;
 
 for (const key of requiredVariables) {
